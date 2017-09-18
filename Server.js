@@ -43,18 +43,19 @@ Category.hasMany(Product);
 conn.sync({ force: true })
   .then(() => {
     return Promise.all([
-      Product.create({ name: 'foo', price: 10 }),
-      Product.create({ name: 'foo 2', price: 20 }),
-      Product.create({ name: 'bar', inStock: false }),
-      Product.create({ name: 'bazz', inStock: false }),
-      Category.create({ name: 'Foo Category' }),
-      Category.create({ name: 'Bar Category' }),
-      Category.create({ name: 'Bazz Category' })
+      Product.create({ name: 'Cookies', price: 10 }),
+      Product.create({ name: 'Cookie Jar', price: 20 }),
+      Product.create({ name: 'Fishbowl', inStock: false }),
+      Product.create({ name: 'Striped Shirt', inStock: false }),
+      Category.create({ name: 'Food' }),
+      Category.create({ name: 'Clothing' }),
+      Category.create({ name: 'Home' })
     ])
-    .then(([foo, foo2, bar, bazz, fooCategory, barCategory]) => {
+    .then(([cookie, cookieJar, fishbowl, shirt, food, clothing, home]) => {
       return Promise.all([
-        fooCategory.addProducts([ foo, foo2 ]),
-        barCategory.addProduct(bar)
+        food.addProducts([ cookie ]),
+        home.addProducts([cookieJar]),
+        clothing.addProducts([shirt])
       ]);
     });
   })

@@ -40,7 +40,7 @@ export default class App extends Component {
       <div className="container">
         <h1>Acme Product/Categories React</h1>
         <div className="row">
-          <ProductList products={products} getProducts={getProducts} />
+          <ProductList products={products} getProducts={getProducts} categories={categories} getCategories={getCategories} />
           <ProductForm getProducts={getProducts} getCategories={getCategories} categories={categories} />
           <Summary />
         </div>
