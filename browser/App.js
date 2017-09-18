@@ -29,7 +29,7 @@ export default class App extends Component {
       this.setState({categories});
     });
   }
-  componentWillMount(){
+  componentDidMount(){
     this.getProducts();
     this.getCategories();
   }
@@ -42,7 +42,7 @@ export default class App extends Component {
         <div className="row">
           <ProductList products={products} getProducts={getProducts} categories={categories} getCategories={getCategories} />
           <ProductForm getProducts={getProducts} getCategories={getCategories} categories={categories} />
-          <Summary />
+          <Summary products={products} getProducts={getProducts} categories={categories} />
         </div>
       </div>
     );
