@@ -7,7 +7,8 @@ export default class ProductList extends Component {
     this.state = {
       products: [],
       errorMsg: '',
-      edited: false
+      edited: false,
+      eventId: 0
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -60,11 +61,12 @@ export default class ProductList extends Component {
       }
       return product;
     });
-    this.setState({products: changeProducts, edited: true});
+    console.log(event.target.id);
+    this.setState({products: changeProducts, edited: true, eventId: event.target.id});
   }
   render (){
     const {categories} = this.props;
-    const {products, errorMsg, edited} = this.state;
+    const {products, errorMsg, edited, eventId} = this.state;
     const {onSubmit, onClick, onChange} = this;
     return (
       <div className="col-sm-6">
@@ -75,7 +77,7 @@ export default class ProductList extends Component {
               <div className="panel panel-default">
                 <div className="panel-body">
                   <form onSubmit={onSubmit}>
-                    {errorMsg.length > 0 ? <div className="alert alert-danger">{errorMsg}</div> : <div />}
+                    {errorMsg.length > 0 && eventId * 1 === product.id ? <div className="alert alert-danger">{errorMsg}</div> : <div />}
                     <div className="form-group">
                       <label htmlFor="">Name</label>
                       <input id={product.id} className="form-control" name="name" type="text" onChange={onChange} data-value={product.name} value={product.name} />
@@ -100,7 +102,7 @@ export default class ProductList extends Component {
                       </select>
                     </div>
                     <div className="form-group">
-                      <button disabled={!edited} name="save" className="btn btn-primary btn-block" onClick={onClick} value={product.id} >Save</button>
+                      <button disabled={eventId * 1 === product.id ? !edited : true} name="save" className="btn btn-primary btn-block" onClick={onClick} value={product.id} >Save</button>
                       <button name="delete" className="btn btn-danger btn-block" onClick={onClick} value={product.id}>Delete</button>
                     </div>
                   </form>
