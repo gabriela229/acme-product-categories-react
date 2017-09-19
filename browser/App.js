@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import ProductList from './ProductList';
 import ProductForm from './ProductForm';
 import Summary from './Summary';
+import ErrorBoundary from './ErrorBoundary';
 import axios from 'axios';
 
 
@@ -41,7 +42,9 @@ export default class App extends Component {
         <h1>Acme Product/Categories React</h1>
         <div className="row">
           <ProductList products={products} getProducts={getProducts} categories={categories} getCategories={getCategories} />
-          <ProductForm getProducts={getProducts} getCategories={getCategories} categories={categories} />
+          <ErrorBoundary>
+            <ProductForm getProducts={getProducts} getCategories={getCategories} categories={categories} />
+          </ErrorBoundary>
           <Summary products={products} getProducts={getProducts} categories={categories} />
         </div>
       </div>

@@ -5,7 +5,9 @@ export default class ProductList extends Component {
   constructor(){
     super();
     this.state = {
-      products: []
+      products: [],
+      errorMsg: '',
+      edited: false
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -26,6 +28,10 @@ export default class ProductList extends Component {
       this.props.getProducts();
       this.props.getCategories();
     })
+    .catch(error => {
+      const errorMsg = error.response.data.errors[0].message;
+      this.setState({errorMsg});
+    });
   }
   onSubmit(event){
     event.preventDefault();
@@ -54,11 +60,11 @@ export default class ProductList extends Component {
       }
       return product;
     });
-    this.setState({products: changeProducts});
+    this.setState({products: changeProducts, edited: true});
   }
   render (){
     const {categories} = this.props;
-    const {products} = this.state;
+    const {products, errorMsg, edited} = this.state;
     const {onSubmit, onClick, onChange} = this;
     return (
       <div className="col-sm-6">
@@ -69,13 +75,14 @@ export default class ProductList extends Component {
               <div className="panel panel-default">
                 <div className="panel-body">
                   <form onSubmit={onSubmit}>
+                    {errorMsg.length > 0 ? <div className="alert alert-danger">{errorMsg}</div> : <div />}
                     <div className="form-group">
                       <label htmlFor="">Name</label>
                       <input id={product.id} className="form-control" name="name" type="text" onChange={onChange} data-value={product.name} value={product.name} />
                     </div>
                      <div className="form-group">
                       <label htmlFor="">Price</label>
-                      <input id={product.id} className="form-control" name="price" type="text" onChange={onChange} data-value={product.price} value={product.price} />
+                      <input id={product.id} className="form-control" name="price" type="number" onChange={onChange} value={product.price} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="">In Stock</label>
@@ -93,7 +100,7 @@ export default class ProductList extends Component {
                       </select>
                     </div>
                     <div className="form-group">
-                      <button name="save" className="btn btn-primary btn-block" onClick={onClick} value={product.id}>Save</button>
+                      <button disabled={!edited} name="save" className="btn btn-primary btn-block" onClick={onClick} value={product.id} >Save</button>
                       <button name="delete" className="btn btn-danger btn-block" onClick={onClick} value={product.id}>Delete</button>
                     </div>
                   </form>

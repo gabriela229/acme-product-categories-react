@@ -8,7 +8,8 @@ export default class ProductFrom extends Component {
       name: '',
       price: '',
       inStock: true,
-      categoryId: 0
+      categoryId: 0,
+      errorMsg: ''
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -26,6 +27,10 @@ export default class ProductFrom extends Component {
         inStock: true,
         categoryId: 0
     });
+    })
+    .catch(error => {
+      const errorMsg = error.response.data.errors[0].message;
+      this.setState({errorMsg});
     });
   }
   onChange(event){
@@ -36,7 +41,7 @@ export default class ProductFrom extends Component {
   }
   render() {
     const {onSubmit, onChange} = this;
-    const {name, price, inStock, categoryId} = this.state;
+    const {name, price, inStock, categoryId, errorMsg} = this.state;
     const {categories} = this.props;
     return (
       <div className="col-sm-3">
@@ -44,6 +49,7 @@ export default class ProductFrom extends Component {
           <div className="panel-heading">Add a Product</div>
           <div className="panel-body">
             <form onSubmit={onSubmit}>
+              {errorMsg.length > 0 ? <div className="alert alert-danger">{errorMsg}</div> : <div />}
               <div className="form-group">
                 <label htmlFor="">Name</label>
                 <input className="form-control" name="name" type="text" onChange={onChange} data-value={name} value={name} />
@@ -72,7 +78,6 @@ export default class ProductFrom extends Component {
           </div>
         </div>
       </div>
-
     );
   }
 
