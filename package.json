@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "./node_modules/webpack/bin/webpack.js",
-    "start:dev": "npm run webpack -- -w & nodemon --ignore dist/ --ignore src/ Server.js"
+    "start:dev": "npm run webpack -- -w & nodemon --ignore dist/ --ignore src/ Server.js",
+    "start": "node Server.js"
   },
   "repository": {
     "type": "git",
